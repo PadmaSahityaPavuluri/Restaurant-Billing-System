@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>🍴 Python Restaurant</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <h1>🍴 Welcome to Python Restaurant 🍴</h1>
+
+    {% if session.user %}
+    <p>👋 Logged in as <b>{{ session.user }}</b> ({{ session.role }}) | <a href="/logout">Logout</a></p>
+    {% else %}
+    <a href="/login">🔐 Login</a>
+    {% endif %}
+
+    <form method="POST" action="/bill">
+        <h2>📋 Menu</h2>
+        <table border="1" cellpadding="8">
+            <tr><th>Item</th><th>Price</th><th>Quantity</th></tr>
+            {% for item, price in menu.items() %}
+            <tr>
+                <td>{{ item }}</td>
+                <td>Rs {{ price }}</td>
+                <td><input type="number" name="{{ item }}" min="0" value="0"></td>
+            </tr>
+            {% endfor %}
+        </table>
+        <br>
+        <label>Discount Coupon:</label>
+        <input type="text" name="coupon" placeholder="SAVE10 / SAVE20">
+        <br><br>
+        <input type="submit" value="Generate Bill">
+    </form>
+    <br>
+    {% if session.role == "admin" %}
+    <a href="/report">📊 View Sales Report</a>
+    {% endif %}
+</body>
+</html>
