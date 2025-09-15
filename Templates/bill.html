@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>🧾 Bill Summary</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <h1>🧾 Python Restaurant Bill 🧾</h1>
+
+    <table border="1" cellpadding="8">
+        <tr><th>Item</th><th>Qty</th><th>Cost</th></tr>
+        {% for item, details in order.items() %}
+        <tr>
+            <td>{{ item }}</td>
+            <td>{{ details['qty'] }}</td>
+            <td>Rs {{ details['cost'] }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    <br>
+    <p>Subtotal: Rs {{ "%.2f"|format(subtotal) }}</p>
+    <p>GST (5%): Rs {{ "%.2f"|format(gst) }}</p>
+    {% if discount > 0 %}
+    <p>Discount ({{ coupon }}): -Rs {{ "%.2f"|format(discount) }}</p>
+    {% endif %}
+    <h3>Total Payable: Rs {{ "%.2f"|format(final_total) }}</h3>
+
+    <br>
+    <a href="/">🔙 Back to Menu</a>
+</body>
+</html>
